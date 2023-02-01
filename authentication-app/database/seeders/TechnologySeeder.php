@@ -6,9 +6,10 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use App\Models\Type;
+use App\Models\Technology;
 
-class TypeSeeder extends Seeder
+
+class TechnologySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,15 +19,15 @@ class TypeSeeder extends Seeder
     public function run()
     {
         // Schema::disableForeignKeyConstraints();
-        Type::truncate();
+        // Technology::truncate();
         // Schema::enableForeingKeyConstraints();
 
-        $types = ['Frontend','Backend','Devops'];
-        foreach ($types as $type) {
-            $new_type = new Type();
-            $new_type->name = $type;
-            $new_type->slug = Str::slug($new_type->name);
-            $new_type->save(); 
+        $technologies = ['Html','CSS','JS', 'Vuejs', 'Laravel'];
+        foreach ($technologies as $technology) {
+            $new_technology = new Technology();
+            $new_technology->name = $technology;
+            $new_technology->slug = Str::slug($new_technology->name);
+            $new_technology->save(); 
         }
     }
 }
