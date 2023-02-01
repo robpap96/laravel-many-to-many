@@ -7,7 +7,7 @@
 
     <thead>
       <tr>
-        <th scope="col">Nome</th>
+        <th scope="col">Nomee</th>
         <th scope="col">Azioni</th>
       </tr>
     </thead>
