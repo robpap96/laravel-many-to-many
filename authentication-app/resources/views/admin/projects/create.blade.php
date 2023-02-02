@@ -60,11 +60,21 @@
                     {{$message}}
                 <div>
             @enderror
+        </div>
+        <div class="mb-3">
+            <div class="mb-2">Tag</div>
+            @foreach ($technologies as $tech)
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="{{$tech->slug}}" name="technologies[]" value="{{$tech->id}}" {{ in_array($tech->id, old('technologies', [])) ? 'checked' : '' }}>
+                <label class="form-check-label" for="{{$tech->slug}}">{{$tech->name}}</label>
+            </div>
+            @endforeach
         </div> 
         <div class="mb-3">
             <label for="cover_image" class="form-label">Immagine</label>
             <input class="form-control" type="file" id="cover_image" name="cover_image" value="{{ old('cover_image') }}">
         </div>
+
         <button type="submit" class="btn btn-success">Aggiungi</button>
     </form>
 </div>

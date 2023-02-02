@@ -62,6 +62,19 @@
                     {{$message}}
                 <div>
             @enderror
+        </div>
+        <div class="mb-3">
+            <div class="mb-2">Tag</div>
+            @foreach ($technologies as $tech)
+            <div class="form-check form-check-inline">
+                @if ($errors->any())
+                    <input class="form-check-input" type="checkbox" id="{{$tech->slug}}" name="technologies[]" value="{{$tech->id}}" {{ in_array($tech->id, old('technologies', [])) ? 'checked' : '' }}>
+                @else
+                    <input class="form-check-input" type="checkbox" id="{{$tech->slug}}" name="technologies[]" value="{{$tech->id}}" {{ $project->technologies->contains($tech->id) ? 'checked' : '' }}>
+                @endif
+                    <label class="form-check-label" for="{{$tech->slug}}">{{$tech->name}}</label>
+                </div>
+            @endforeach
         </div> 
         <div class="mb-3">
             <label for="cover_image" class="form-label">Immagine</label>

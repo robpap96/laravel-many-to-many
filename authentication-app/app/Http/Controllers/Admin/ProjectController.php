@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -31,8 +32,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $technologies = Technology::all();
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -44,18 +46,21 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $data = $request->validated();
-
+        
+        if(isset($data['cover_image'])) {
+            $data['cover_image'] = Storage::put('uploads', $data['cover_image']);
+        }
+        
         $new_project = new Project();
         $new_project->fill($data);
         $new_project->slug = Str::slug($new_project->name);
-        
-        if(isset($data['cover_image'])) {
-            $img_path = Storage::disk('public')->put('uploads', $data['cover_image']);
-            $new_project->cover_image = $img_path;
-        }
-        
         $new_project->save();
         
+        if( isset($data['technologies'])){
+            $new_project->technologies()->sync($data['technologies']);
+
+        }
+
         return redirect()->route('admin.projects.index')->with('message', "Progetto $new_project->name aggiunto con successo!");
     }
 
@@ -79,7 +84,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project','types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.edit', compact('project','types','technologies'));
     }
 
     /**
@@ -98,11 +105,19 @@ class ProjectController extends Controller
         $project->slug = Str::slug($data['name']);
         
         if(isset($data['cover_image'])){
-            $img_path = Storage::delete($project->cover_image);
+            if($project->cover_image){
+                Storage::delete($project->cover_image);
+            }
             $data['cover_image'] = Storage::put('uploads', $data['cover_image']);
         }
 
         $project->update($data);
+
+        if( isset($data['technologies'])){
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            $project->technologies()->sync([]);
+        }
 
         return redirect()->route('admin.projects.index')->with('message', "Progetto $old_name modificato con successo!");
     }

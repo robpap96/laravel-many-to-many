@@ -30,7 +30,8 @@ class StoreProjectRequest extends FormRequest
             "created_on" => "required|date",
             "customer" => "required|string",
             "private" => "required|boolean",
-            "type_id" => "nullable|exists:types,id"
+            "type_id" => "nullable|exists:types,id",
+            "technologies" => "nullable|exists:technologies,id"
 
         ];
     }

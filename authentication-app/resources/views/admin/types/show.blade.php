@@ -3,9 +3,16 @@
 @section('content')
     <div class="container">
         <div class="py-4">
-            <h2><a href="{{route('admin.types.index')}}">Torna alla lista</a></h2>
             <h1>{{$type->name}}</h1>
-            <h3>Categoria: <a href="{{route('admin.types.show', $type)}}">{{$type->name}}</a></h3>
+            @if($type->projects->isNotEmpty())
+                <h3>Post associati:</h3>
+                <ul>
+                    @foreach ($type->projects as $project)
+                        <li><a href="{{route('admin.projects.show', $project)}}">{{project->name}}</a></li>    
+                    @endforeach
+                </ul>
+            @else
+                <h3> Nessun progetto associato</h3>    
         </div>
     </div>
 @endsection

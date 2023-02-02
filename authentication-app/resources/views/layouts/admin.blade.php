@@ -99,7 +99,7 @@
                       href="{{route('admin.projects.index')}}"
                     >
                     <i class="fa-duotone fa-table-list"></i>
-                      Lista Progetti
+                      Projects
                     </a>
                 </li>
                 <li class="nav-item">
@@ -108,7 +108,16 @@
                       href="{{route('admin.types.index')}}"
                     >
                     <i class="fa-duotone fa-table-list"></i>
-                      Tipi di Progetto
+                      Project Types
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                      class="nav-link text-white {{ Route::currentRouteName() == 'admin.technologies.index' ? 'bg-secondary' : '' }}"
+                      href="{{route('admin.technologies.index')}}"
+                    >
+                    <i class="fa-duotone fa-table-list"></i>
+                      Technologies
                     </a>
                 </li>
               </ul>
