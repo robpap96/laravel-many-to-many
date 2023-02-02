@@ -32,7 +32,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -43,7 +43,15 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $new_technology = new Technology();
+        $new_technology->fill($data);
+        $new_technology->slug = Str::slug($new_technology->name);
+        
+        $new_technology->save();
+        
+        return redirect()->route('admin.technologies.index')->with('message', "Tecnologia $new_technology->name aggiunta con successo!");
     }
 
     /**
@@ -54,7 +62,7 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        //
+        return view('admin.technologies.show', compact('technology'));
     }
 
     /**
@@ -65,7 +73,8 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        
+        return view('admin.technologies.edit', compact('technology'));
     }
 
     /**
@@ -77,7 +86,16 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        //
+        $data = $request->validated();
+
+        $old_name = $technology->name;
+
+        $technology->slug = Str::slug($data['name']);
+        
+
+        $technology->update($data);
+
+        return redirect()->route('admin.technologies.index')->with('message', "Tecnologia $old_name modificata con successo!");
     }
 
     /**
@@ -88,6 +106,8 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $old_name = $technology->name;
+        $technology->delete();
+        return redirect()->route('admin.technologies.index')->with('message', "Tecnologia $old_name è stato cancellata con successo!");
     }
 }

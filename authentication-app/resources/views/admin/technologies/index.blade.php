@@ -8,6 +8,7 @@
     <thead>
       <tr>
         <th scope="col">Nome</th>
+        <th scope="col">Tecnologia</th>
         <th scope="col">Azioni</th>
       </tr>
     </thead>
